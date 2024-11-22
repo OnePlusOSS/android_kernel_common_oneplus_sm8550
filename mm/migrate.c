@@ -313,6 +313,9 @@ void __migration_entry_wait(struct mm_struct *mm, pte_t *ptep,
 		goto out;
 
 	page = pfn_swap_entry_to_page(entry);
+#ifdef CONFIG_CONT_PTE_HUGEPAGE
+	CHP_BUG_ON(PageCont(page));
+#endif
 	page = compound_head(page);
 
 	/*
@@ -483,6 +486,7 @@ int migrate_page_move_mapping(struct address_space *mapping,
 		struct mem_cgroup *memcg;
 
 		memcg = page_memcg(page);
+		/* FIXME: chp lruvec no care! */
 		old_lruvec = mem_cgroup_lruvec(memcg, oldzone->zone_pgdat);
 		new_lruvec = mem_cgroup_lruvec(memcg, newzone->zone_pgdat);
 
@@ -1000,6 +1004,11 @@ static int __unmap_and_move(struct page *page, struct page *newpage,
 
 		lock_page(page);
 	}
+
+	/* for debugging, detect the migration of subpages */
+#ifdef CONFIG_CONT_PTE_HUGEPAGE
+	CHP_BUG_ON(PageCont(page));
+#endif
 
 	if (PageWriteback(page)) {
 		/*

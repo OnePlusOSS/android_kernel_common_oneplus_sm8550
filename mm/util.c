@@ -784,6 +784,18 @@ bool page_mapped(struct page *page)
 		if (atomic_read(&page[i]._mapcount) >= 0)
 			return true;
 	}
+
+#ifdef CONFIG_CONT_PTE_HUGEPAGE
+	/* page_mapcount is not reliable for cont_pte pages */
+	if (ContPteHugePageHead(page) && PageAnon(page)) {
+		if (ContPteHugePageDoubleMap(page) ||
+			atomic_read(compound_mapcount_ptr(page)) >= 0)
+			return true;
+		else
+			return false;
+	}
+#endif
+
 	return false;
 }
 EXPORT_SYMBOL(page_mapped);

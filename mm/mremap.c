@@ -179,7 +179,15 @@ static void move_ptes(struct vm_area_struct *vma, pmd_t *old_pmd,
 				   new_pte++, new_addr += PAGE_SIZE) {
 		if (pte_none(*old_pte))
 			continue;
-
+#ifdef CONFIG_CONT_PTE_HUGEPAGE
+		/* in mremap case, new_addres might not be aligned */
+		if (pte_cont(*old_pte)) {
+			if (new_ptl == old_ptl)
+				__split_huge_cont_pte(vma, old_pte, old_addr, false, NULL, old_ptl);
+			else
+				__split_huge_cont_pte_double_ptl(vma, old_pte, old_addr, false, NULL, new_ptl, old_ptl);
+		}
+#endif
 		pte = ptep_get_and_clear(mm, old_addr, old_pte);
 		/*
 		 * If we are remapping a valid PTE, make sure

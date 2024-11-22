@@ -22,6 +22,14 @@ ifdef CONFIG_FUNCTION_TRACER
 CFLAGS_REMOVE_irq_work.o = $(CC_FLAGS_FTRACE)
 endif
 
+PGO_PROFILE_softirq.o := n
+PGO_PROFILE_module.o := n
+PGO_PROFILE_extable.o := n
+PGO_PROFILE_stacktrace.o := n
+PGO_PROFILE_kcov.o := n
+PGO_PROFILE_softirq.o := n
+PGO_PROFILE_stackleak.o := n
+
 # Prevents flicker of uninteresting __do_softirq()/__local_bh_disable_ip()
 # in coverage traces.
 KCOV_INSTRUMENT_softirq.o := n

@@ -17,19 +17,21 @@
 #define _TRACE_HOOK_MM_H
 
 #include <trace/hooks/vendor_hooks.h>
+#include <../mm/slab.h>
+#include <linux/rwsem.h>
 
 #ifdef __GENKSYMS__
 #include <linux/types.h>
 #include <linux/mm.h>
 #include <linux/oom.h>
 #include <linux/rwsem.h>
-#include <../mm/slab.h>
 #endif
 
 struct oom_control;
 struct slabinfo;
 struct track;
 struct address_space;
+struct readahead_control;
 struct page_vma_mapped_walk;
 struct cma;
 struct compact_control;
