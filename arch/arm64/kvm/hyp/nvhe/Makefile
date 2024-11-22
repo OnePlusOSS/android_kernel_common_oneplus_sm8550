@@ -99,6 +99,7 @@ KBUILD_CFLAGS := $(filter-out -fprofile-sample-use=% -fprofile-use=%, $(KBUILD_C
 # compiler instrumentation that inserts callbacks or checks into the code may
 # cause crashes. Just disable it.
 GCOV_PROFILE	:= n
+PGO_PROFILE	:= n
 KASAN_SANITIZE	:= n
 UBSAN_SANITIZE	:= n
 KCOV_INSTRUMENT	:= n

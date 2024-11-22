@@ -177,7 +177,6 @@ static void inc_inflight(struct unix_sock *usk)
 static void inc_inflight_move_tail(struct unix_sock *u)
 {
 	u->inflight++;
-
 	/* If this still might be part of a cycle, move it to the end
 	 * of the list, so that it's checked even if it was already
 	 * passed over
@@ -250,7 +249,7 @@ void unix_gc(void)
 		struct sock *sk = &u->sk;
 		long total_refs;
 
-		total_refs = file_count(sk->sk_socket->file);
+		total_refs = file_count(u->sk.sk_socket->file);
 
 		BUG_ON(!u->inflight);
 		BUG_ON(total_refs < u->inflight);

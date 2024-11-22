@@ -976,10 +976,11 @@ rwsem_down_read_slowpath(struct rw_semaphore *sem, long count, unsigned int stat
 	    (rcnt > 1) && !(count & RWSEM_WRITER_LOCKED))
 		goto queue;
 
+
+	trace_android_vh_rwsem_direct_rsteal(sem, &steal);
 	/*
 	 * Reader optimistic lock stealing.
 	 */
-	trace_android_vh_rwsem_direct_rsteal(sem, &steal);
 	if (steal && !(count & (RWSEM_WRITER_LOCKED | RWSEM_FLAG_HANDOFF))) {
 		rwsem_set_reader_owned(sem);
 		lockevent_inc(rwsem_rlock_steal);
