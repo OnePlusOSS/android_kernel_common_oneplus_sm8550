@@ -12,6 +12,8 @@ ipv6-objs :=	af_inet6.o anycast.o ip6_output.o ip6_input.o addrconf.o \
 		exthdrs.o datagram.o ip6_flowlabel.o inet6_connection_sock.o \
 		udp_offload.o seg6.o fib6_notifier.o rpl.o ioam6.o
 
+PGO_PROFILE_udp.o := n
+
 ipv6-offload :=	ip6_offload.o tcpv6_offload.o exthdrs_offload.o
 
 ipv6-$(CONFIG_SYSCTL) = sysctl_net_ipv6.o

@@ -74,6 +74,12 @@ scm_version()
 		elif [ -n "$android_release" ]; then
 			printf '%s' "-$android_release"
 		fi
+		#ifdef OPLUS_FEATURE_BUILD
+		# Add oki infix "-o"
+		local oki_infix=o
+		printf '%s' "-$oki_infix"
+		#endif OPLUS_FEATURE_BUILD
+
 		# If we are at a tagged commit (like "v2.6.30-rc6"), by default
 		# we ignore it and manually define VERSION in the top level
 		# Makefile. Alternatively, set --save-tag to keep the tag.
@@ -174,8 +180,8 @@ elif [ "${LOCALVERSION+set}" != "set" ]; then
 fi
 
 # finally, add the abXXX number if BUILD_NUMBER is set
-if test -n "${BUILD_NUMBER}"; then
-	res="$res-ab${BUILD_NUMBER}"
-fi
+#if test -n "${BUILD_NUMBER}"; then
+#	res="$res-ab${BUILD_NUMBER}"
+#fi
 
 echo "$res"
